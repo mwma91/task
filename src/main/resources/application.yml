@@ -1,0 +1,21 @@
+spring:
+  datasource:
+    #    driver-class-name: com.mysql.cj.jdbc.Driver
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:mysql://localhost:3306/dev_test?serverTimezone=Asia/Seoul&characterEncoding=UTF-8&useUnicode=true
+    username: root
+    password: 1234
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+
+logging:
+  level:
+    jdbc:
+      sqlonly: off
+      sqltiming: info
+      resultsettable: info
+      audit: off
+      resultset: off
+      connection: off
