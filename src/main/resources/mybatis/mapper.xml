@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.chanho.task.mapper.BoardMapper">
+
+    <select id="listBoards" resultType="com.chanho.task.dto.BoardResponseDto">
+        SELECT cms__board.board_id,
+               cms__board.name_ko
+        FROM cms__board
+    </select>
+
+    <select id="listArticles" parameterType="int" resultType="com.chanho.task.dto.ArticleListResponseDto">
+        SELECT article.article_id,
+               article.title,
+               article.view_count,
+               article.is_pinned,
+               article.created_datetime,
+               cms__image.original_url
+        FROM cms__article article
+                 LEFT OUTER JOIN cms__image
+                                 ON article.article_id = (SELECT cms__image.image_id
+                                                          FROM cms__image
+                                                          WHERE article.article_id = cms__image.image_id
+                                                          ORDER BY cms__image.created_datetime
+                                                          LIMIT 1)
+        WHERE article.board_id = #{boardId}
+    </select>
+
+    <insert id="createArticle" parameterType="com.chanho.task.entity.Article">
+        INSERT INTO cms__article (board_id, title, content_html, content_string)
+        VALUES (#{boardId},
+        #{title},
+        #{contentHtml},
+        #{contentString})
+        <selectKey keyProperty="articleId" resultType="int" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="retrieveArticle" parameterType="int" resultType="com.chanho.task.dto.ArticleResponseDto">
+        SELECT cms__article.article_id,
+               cms__article.board_id,
+               cms__article.created_datetime,
+               cms__article.is_pinned,
+               cms__article.view_count,
+               cms__article.title,
+               cms__article.content_html,
+               cms__article.content_string,
+               cms__board.name_ko
+        FROM cms__article
+                 INNER JOIN cms__board
+                            ON cms__article.board_id = cms__board.board_id
+        WHERE cms__article.article_id = #{articleId}
+    </select>
+
+    <delete id="deleteArticle" parameterType="int">
+        DELETE
+        FROM cms__article
+        WHERE article_id = #{articleId}
+    </delete>
+
+    <select id="searchBoards" parameterType="String" resultType="com.chanho.task.dto.ArticleListResponseDto">
+        SELECT article.article_id,
+               article.title,
+               article.view_count,
+               article.is_pinned,
+               article.created_datetime,
+               cms__image.original_url
+        FROM cms__article article
+                 LEFT OUTER JOIN cms__image
+                                 ON article.article_id = (SELECT cms__image.image_id
+                                                          FROM cms__image
+                                                          WHERE article.article_id = cms__image.image_id
+                                                          ORDER BY cms__image.created_datetime
+                                                          LIMIT 1)
+        WHERE article.board_id IN (SELECT cms__board.board_id
+                                   FROM cms__board
+                                   WHERE cms__board.name_ko
+                                             LIKE CONCAT('%'
+                                             , #{boardName}
+                                             , '%'))
+    </select>
+
+    <select id="searchArticles" parameterType="String" resultType="com.chanho.task.dto.ArticleListResponseDto">
+        SELECT article.article_id,
+               article.title,
+               article.view_count,
+               article.is_pinned,
+               article.created_datetime,
+               cms__image.original_url
+        FROM cms__article article
+                 LEFT OUTER JOIN cms__image
+                                 ON article.article_id = (SELECT cms__image.image_id
+                                                          FROM cms__image
+                                                          WHERE article.article_id = cms__image.image_id
+                                                          ORDER BY cms__image.created_datetime
+                                                          LIMIT 1)
+        WHERE article.title
+            LIKE CONCAT('%', #{boardName}, '%')
+           OR article.content_string
+            LIKE CONCAT('%', #{boardName}, '%')
+    </select>
+
+    <select id="searchArticlesBetween" parameterType="com.chanho.task.dto.DateDto"
+            resultType="com.chanho.task.dto.ArticleListResponseDto">
+        SELECT article.article_id,
+               article.title,
+               article.view_count,
+               article.is_pinned,
+               article.created_datetime,
+               cms__image.original_url
+        FROM cms__article article
+                 LEFT OUTER JOIN cms__image
+                                 ON article.article_id = (SELECT cms__image.image_id
+                                                          FROM cms__image
+                                                          WHERE article.article_id = cms__image.image_id
+                                                          ORDER BY cms__image.created_datetime
+                                                          LIMIT 1)
+        WHERE DATE(article.created_datetime)
+                  BETWEEN
+                  STR_TO_DATE(#{from}, '%Y-%m-%d')
+                  AND
+                  STR_TO_DATE(#{until}, '%Y-%m-%d')
+    </select>
+</mapper>

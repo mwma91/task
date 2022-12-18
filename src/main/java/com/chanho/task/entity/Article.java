@@ -11,12 +11,14 @@ public class Article {
     private String title;
     private String contentHtml;
     private String contentString;
+    private String thumbnailUrl;
 
     public Article(ArticleRequestDto requestDto) {
         setBoardId(requestDto.getBoardId());
         setTitle(requestDto.getTitle());
         setContentHtml(requestDto.getContent());
         setContentString(requestDto.getContent());
+        setThumbnailUrl(requestDto.getImages().get(0));
     }
 
     public int getArticleId() {
@@ -81,5 +83,13 @@ public class Article {
 
     public void setContentString(String contentString) {
         this.contentString = contentString;
+    }
+
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
+    }
+
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 }

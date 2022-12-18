@@ -1,9 +1,6 @@
 package com.chanho.task.service;
 
-import com.chanho.task.dto.ArticleListResponseDto;
-import com.chanho.task.dto.ArticleRequestDto;
-import com.chanho.task.dto.ArticleResponseDto;
-import com.chanho.task.dto.BoardResponseDto;
+import com.chanho.task.dto.*;
 import com.chanho.task.entity.Article;
 import com.chanho.task.mapper.BoardMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,12 +18,12 @@ public class BoardService {
         this.boardMapper = boardMapper;
     }
 
-    public List<ArticleListResponseDto> listArticles(int boardId) {
-        return boardMapper.listArticles(boardId);
-    }
-
     public List<BoardResponseDto> listBoards() {
         return boardMapper.listBoards();
+    }
+
+    public List<ArticleListResponseDto> listArticles(int boardId) {
+        return boardMapper.listArticles(boardId);
     }
 
     public int createArticle(ArticleRequestDto requestDto) {
@@ -43,5 +40,17 @@ public class BoardService {
 
     public int deleteArticle(int articleId) {
         return boardMapper.deleteArticle(articleId);
+    }
+
+    public List<ArticleListResponseDto> searchBoards(String boardName) {
+        return boardMapper.searchBoards(boardName);
+    }
+
+    public List<ArticleListResponseDto> searchArticles(String keyword) {
+        return boardMapper.searchArticles(keyword);
+    }
+
+    public List<ArticleListResponseDto> searchArticlesBetween(DateDto date) {
+        return boardMapper.searchArticlesBetween(date);
     }
 }

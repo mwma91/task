@@ -6,7 +6,7 @@ public class ArticleListResponseDto {
     private int viewCount;
     private boolean isPinned;
     private String createdDatetime;
-    private String thumbnail;
+    private String thumbnailUrl;
 
     public int getArticleId() {
         return articleId;
@@ -48,11 +48,11 @@ public class ArticleListResponseDto {
         this.createdDatetime = createdDatetime;
     }
 
-    public String getThumbnail() {
-        return thumbnail;
+    public String getThumbnailUrl() {
+        return thumbnailUrl;
     }
 
-    public void setThumbnail(String thumbnail) {
-        this.thumbnail = thumbnail;
+    public void setThumbnailUrl(String thumbnailUrl) {
+        this.thumbnailUrl = thumbnailUrl;
     }
 }

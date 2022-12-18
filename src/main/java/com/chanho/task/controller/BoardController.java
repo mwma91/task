@@ -1,9 +1,6 @@
 package com.chanho.task.controller;
 
-import com.chanho.task.dto.ArticleListResponseDto;
-import com.chanho.task.dto.ArticleRequestDto;
-import com.chanho.task.dto.ArticleResponseDto;
-import com.chanho.task.dto.BoardResponseDto;
+import com.chanho.task.dto.*;
 import com.chanho.task.service.BoardService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -58,4 +55,24 @@ public class BoardController {
     public int deleteArticle(@PathVariable int articleId) {
         return boardService.deleteArticle(articleId);
     }
+
+    // 검색기능
+    // 1. 게시판 이름으로 검색
+    @GetMapping("/search/boards/{boardName}")
+    public List<ArticleListResponseDto> searchBoards(@PathVariable String boardName) {
+        return boardService.searchBoards(boardName);
+    }
+
+    // 2. 게시물 제목, 내용으로 검색
+    @GetMapping("/search/articles/{keyword}")
+    public List<ArticleListResponseDto> searchArticles(@PathVariable String keyword) {
+        return boardService.searchArticles(keyword);
+    }
+
+    // 3. 특정 기간 내 검색
+    @GetMapping("/search/articles")
+    public List<ArticleListResponseDto> searchArticlesBetween(@RequestBody DateDto date) {
+        return boardService.searchArticlesBetween(date);
+    }
+
 }
