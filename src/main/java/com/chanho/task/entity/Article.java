@@ -3,7 +3,7 @@ package com.chanho.task.entity;
 import com.chanho.task.dto.ArticleRequestDto;
 
 public class Article {
-    private int articleId;
+    private long articleId;
     private int boardId;
     private String createdDatetime;
     private boolean isPinned;
@@ -11,21 +11,19 @@ public class Article {
     private String title;
     private String contentHtml;
     private String contentString;
-    private String thumbnailUrl;
 
     public Article(ArticleRequestDto requestDto) {
         setBoardId(requestDto.getBoardId());
         setTitle(requestDto.getTitle());
         setContentHtml(requestDto.getContent());
         setContentString(requestDto.getContent());
-        setThumbnailUrl(requestDto.getImages().get(0));
     }
 
-    public int getArticleId() {
+    public long getArticleId() {
         return articleId;
     }
 
-    public void setArticleId(int articleId) {
+    public void setArticleId(long articleId) {
         this.articleId = articleId;
     }
 
@@ -83,13 +81,5 @@ public class Article {
 
     public void setContentString(String contentString) {
         this.contentString = contentString;
-    }
-
-    public String getThumbnailUrl() {
-        return thumbnailUrl;
-    }
-
-    public void setThumbnailUrl(String thumbnailUrl) {
-        this.thumbnailUrl = thumbnailUrl;
     }
 }

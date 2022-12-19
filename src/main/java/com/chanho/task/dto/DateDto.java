@@ -1,22 +1,24 @@
 package com.chanho.task.dto;
 
-public class DateDto {
-    private String from;
-    private String until;
+import java.time.LocalDate;
 
-    public String getFrom() {
+public class DateDto {
+    private LocalDate from;
+    private LocalDate until;
+
+    public LocalDate getFrom() {
         return from;
     }
 
-    public void setFrom(String from) {
+    public void setFrom(LocalDate from) {
         this.from = from;
     }
 
-    public String getUntil() {
+    public LocalDate getUntil() {
         return until;
     }
 
-    public void setUntil(String until) {
+    public void setUntil(LocalDate until) {
         this.until = until;
     }
 }

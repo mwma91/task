@@ -1,5 +1,7 @@
 package com.chanho.task.dto;
 
+import java.util.List;
+
 public class ArticleResponseDto {
     private int articleId;
     private String title;
@@ -8,6 +10,7 @@ public class ArticleResponseDto {
     private boolean isPinned;
     private String createdDatetime;
     private String nameKo;
+    private List<String> imageUrls;
 
     public int getArticleId() {
         return articleId;
@@ -63,5 +66,13 @@ public class ArticleResponseDto {
 
     public void setNameKo(String nameKo) {
         this.nameKo = nameKo;
+    }
+
+    public List<String> getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(List<String> imageUrls) {
+        this.imageUrls = imageUrls;
     }
 }

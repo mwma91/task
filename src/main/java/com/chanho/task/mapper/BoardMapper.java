@@ -1,11 +1,10 @@
 package com.chanho.task.mapper;
 
-import com.chanho.task.dto.ArticleListResponseDto;
-import com.chanho.task.dto.ArticleResponseDto;
-import com.chanho.task.dto.BoardResponseDto;
-import com.chanho.task.dto.DateDto;
+import com.chanho.task.dto.*;
 import com.chanho.task.entity.Article;
+import com.chanho.task.entity.Image;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -13,17 +12,27 @@ import java.util.List;
 public interface BoardMapper {
     List<BoardResponseDto> listBoards();
 
-    List<ArticleListResponseDto> listArticles(int boardId);
+    List<ArticleListResponseDto> listArticles(@Param("boardId") int boardId);
 
-    int createArticle(Article article);
-    
-    ArticleResponseDto retrieveArticle(int articleId);
+    List<Image> findThumbnails(@Param("articles") List<ArticleListResponseDto> articles);
 
-    int deleteArticle(int articleId);
+    int createImage(@Param("imageDto") ImageDto imageDto);
 
-    List<ArticleListResponseDto> searchBoards(String boardName);
+    int createArticle(@Param("article") Article article);
 
-    List<ArticleListResponseDto> searchArticles(String keyword);
+    int updateImages(@Param("articleId") long articleId, @Param("imageIds") List<Long> imageIds);
 
-    List<ArticleListResponseDto> searchArticlesBetween(DateDto dateBetween);
+    ArticleResponseDto retrieveArticle(@Param("articleId") long articleId);
+
+    List<String> findImages(@Param("articleId") long articleId);
+
+    int increaseViewcount(@Param("articleId") long articleId);
+
+    int deleteArticle(@Param("articleId") long articleId);
+
+    List<ArticleListResponseDto> searchBoards(@Param("boardName") String boardName);
+
+    List<ArticleListResponseDto> searchArticles(@Param("keyword") String keyword);
+
+    List<ArticleListResponseDto> searchArticlesBetween(@Param("date") DateDto date);
 }
